@@ -4,12 +4,29 @@ A friendly and intelligent web app that lets you paste or type any piece of text
 
 The dashboard gives you a clear and interactive view:
 
-✅ A progress bar and gauge showing how confident the system is in its prediction  
+- [x] A progress bar and gauge showing how confident the system is in its prediction  
 
-✅ Five smart writing stats that help explain the result – like how fluent the text is (*perplexity*), how rich the vocabulary is (*type-token ratio*), how much repetition there is, and how long the sentences and words tend to be.
+- [x] Five smart writing stats that help explain the result – like how fluent the text is (*perplexity*), how rich the vocabulary is (*type-token ratio*), how much repetition there is, and how long the sentences and words tend to be.
 
 It's like a lie detector for language – made simple, fast, and visual.
 
+---
+
+## Table of Contents
+
+1. [Dashboard Preview](#dashboard-preview)  
+2. [Features](#features)  
+3. [Installation](#installation)  
+4. [Uncompressing Model Files](#uncompressing-model-files)  
+5. [Usage](#usage)  
+6. [Project Structure](#project-structure)  
+7. [How It Works](#how-it-works)  
+8. [Model Decision Logic](#model-decision-logic)  
+9. [Roadmap](#roadmap-)  
+10. [Contributing](#contributing)  
+11. [License](#license)
+
+  
 ---
 
 ## Dashboard Preview
@@ -22,21 +39,6 @@ It's like a lie detector for language – made simple, fast, and visual.
 
 ![After Analysis (Elon Musk Tweet Example)](assets/elon_tweet_dashboard.png)
 
----
-
-## Table of Contents
-
-1. [Features](#features)
-2. [Installation](#installation)
-3. [Uncompressing Model Files](#uncompressing-model-files)
-4. [Usage](#usage)
-5. [Project Structure](#project-structure)
-6. [How It Works](#how-it-works)
-7. [Model Decision Logic](#model-decision-logic)  
-8. [Roadmap](#roadmap-)  
-9. [Contributing](#contributing)  
-10. [License](#license)
-  
 ---
 
 ## Features
@@ -107,9 +109,13 @@ This produces:
 
         python app.py
     
-2. **Open the dashboard** – Once the app starts, the terminal will display a local address (e.g., http://...).
+2. **Open the dashboard** – After running the app, you'll see a message like this in the terminal:
+    
+      ```bash
+      Dash is running on http://localhost:XXXX/
+      ```
 
-   Navigate to that address in your browser to open the dashboard.
+    Just copy that address and open it in your browser to access the app.
 
 4. **Analyze text**
    - Paste or type text into the text area.  
@@ -127,14 +133,9 @@ This produces:
     ai-text-detection/
     ├── assets/
     │ ├── style.css
-    │ ├── blank_dashboard.png
-    │ └── elon_tweet_dashboard.png
     ├── model/
-    │ ├── best_model_xgboost.joblib.xz
-    │ ├── xgboost_model.json.xz
     │ ├── best_model_xgboost.joblib
     │ ├── xgboost_model.json
-    │ └── decompress_xz_file.py
     ├── app.py
     ├── detection.py
     ├── embeddings.py
@@ -169,12 +170,22 @@ This produces:
 
 ## Model Decision Logic
 
-The model decides based on **a combination of deep and surface-level features**:
+The model makes its prediction based on a mix of **deep neural features** and **linguistic statistics**, but two features stand out as the most influential:
 
-- **Deep Representation:** 768-dim BERT embedding captures high-level semantics.
-- **Surface Linguistics:** Metrics like TTR, repetition rate, and burstiness reveal patterns often associated with AI or human writing.
-- **GPT-2 Perplexity:** High perplexity suggests unfamiliar, unnatural phrasing (often human); low suggests fluency (often AI).
-- All features are passed to an **XGBoost classifier** trained on a labeled dataset of AI- vs human-written text.
+### Key Drivers Behind the Decision
+- **Perplexity (GPT-2):** Measures how "surprising" the text is to a language model. Lower perplexity suggests fluent, AI-like writing. Higher perplexity often points to more unpredictable, human writing.
+- **Type-Token Ratio (TTR):** A vocabulary richness score. AI tends to reuse common words more, while human writing often shows greater lexical variety.
+
+These two features – *perplexity* and *TTR* – were identified as the **strongest predictors** of authorship during our research and experimentation.
+
+Other supporting features include:
+
+- **BERT embeddings** – Capture overall semantic context
+- **Repetition Rate** – Detects redundant phrasing
+- **Syntactic Features** – Based on sentence structure and grammar
+- **Burstiness & Meta Features** – Measure rhythm and variation in sentence length
+
+All features are combined into a 1792-dimensional vector and passed to a trained **XGBoost** classifier, which outputs the final probabilities of **Human** vs **AI**.
 
 ---
 
@@ -183,7 +194,7 @@ The model decides based on **a combination of deep and surface-level features**:
 ### Current Capabilities
 
 - [x] BERT and GPT-2-based feature extraction  
-- [x] Rich dashboard visualizations  
+- [x] Dashboard visualizations  
 - [x] Modular detection logic  
 
 ### Planned Improvements
@@ -191,9 +202,8 @@ The model decides based on **a combination of deep and surface-level features**:
 - [ ] **Model Compression** – Reduce memory with quantized or distilled models  
 - [ ] **Model Upgrade** – Try LLMs like RoBERTa, DeBERTa, or GPT-Neo for embeddings  
 - [ ] **Training Mode** – Allow uploading labeled examples to fine-tune or retrain the model  
-- [ ] **Multilingual Support** – Extend feature pipeline for non-English texts  
-- [ ] **Mobile Viewport Optimization** – Improve responsiveness on small screens
-
+- [ ] **Multilingual Support** – Extend feature pipeline for non-English texts
+      
 ---
 
 ## Contributing
