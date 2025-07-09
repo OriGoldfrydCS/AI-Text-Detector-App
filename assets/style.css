@@ -1,0 +1,60 @@
+/* ========== Base Page Styles ========== */
+
+body {
+  background-color: #0e1525;        /* Dark background */
+  color: #ffffff;                   /* Text color: white */
+  font-family: "Arial", sans-serif;   /* sans-serif font */
+}
+
+#header {
+  text-align: center;                 /* Center-align heading text */
+  padding: 2rem 0;                    /* Add padding to the header */          
+}
+
+
+/* ========== Content Containers ========== */
+
+#text-input-box, 
+#results-box, 
+#metrics-box {
+  background-color: #1b2638;        /* Slightly lighter dark background for content blocks */
+  border-radius: 8px;                 /* Rounded corners for content blocks */      
+  padding: 1rem;                      /* Internal spacing inside the boxes */      
+  margin-bottom: 1.5rem;              /* Space between stacked sections */
+}
+
+
+/* ========== Text Area ========== */
+
+textarea {
+  background-color: #162135;        /* Darker background for text area */
+  color: #ffffff;                   /* Text color: white */         
+  border: none;                       /* No border for text area */   
+  resize: none;                       /* Disable resizing of the text area */            
+}
+
+
+/* ========== Button Styles ========== */
+
+button {
+  background-color: #28666e;        /* Button background color */
+  color: #ffffff;                   /* Button text color: white */
+  border: none;                       /* No border for buttons */
+}
+
+button:hover {
+  background-color: #3994a6;        /* Brighter shade on hover for interactivity feedback */
+}
+
+
+/* ========== Sample Text List Styles ========== */
+
+.sample-texts li {
+  margin-bottom: .5rem;               /* Space between list items */  
+  cursor: pointer;                    /* Pointer cursor for interactivity */  
+  color: #8da7be;                   /* Lighter text color for sample texts */ 
+}
+
+.sample-texts li:hover {              /* Brighten text on hover */
+  color: #ffffff;
+}
